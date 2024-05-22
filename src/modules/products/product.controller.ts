@@ -4,7 +4,6 @@ import { ProductServices } from "./product.service";
 const createProduct = async (req: Request, res: Response) => {
   const productData = req.body;
   const searchTerm = req.body.searchTerm || productData.name;
-  console.log(searchTerm);
   const result = await ProductServices.createProduct(productData, searchTerm);
   res.json({
     success: true,
