@@ -22,8 +22,8 @@ const getProductBySlug = async (slug: string) => {
   return result;
 };
 
-const deleteProduct = async (id: string) => {
-  const result = await ProductModel.updateOne({ id }, { isDeleted: true });
+const hardDeleteProduct = async (id: string) => {
+  const result = await ProductModel.deleteOne({ _id: id });
   return result;
 };
 
@@ -32,5 +32,5 @@ export const ProductServices = {
   getAllProducts,
   getProductById,
   getProductBySlug,
-  deleteProduct,
+  hardDeleteProduct,
 };

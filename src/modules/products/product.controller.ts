@@ -64,10 +64,18 @@ const getProductBySlug = async (req: Request, res: Response) => {
   }
 };
 
-const deleteProductById = async (req: Request, res: Response) => {
+const hardDeleteProductById = async (req: Request, res: Response) => {
   try {
     const { productId } = req.params;
-    const result = await ProductServices.deleteProduct(productId);
+    const result = await ProductServices.hardDeleteProduct(productId);
+
+    if (result.deletedCount === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "Product not found!",
+      });
+    }
+
     res.status(200).json({
       success: true,
       message: "Product deleted successfully!",
@@ -76,8 +84,8 @@ const deleteProductById = async (req: Request, res: Response) => {
   } catch (err: any) {
     res.status(500).json({
       success: false,
-      message: "Could not delete product !",
-      error: err,
+      message: "Could not delete product!",
+      error: err.message,
     });
   }
 };
@@ -87,5 +95,5 @@ export const productController = {
   getAllProducts,
   getProductById,
   getProductBySlug,
-  deleteProductById,
+  hardDeleteProductById,
 };
