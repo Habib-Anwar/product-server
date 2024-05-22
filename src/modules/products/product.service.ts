@@ -5,7 +5,7 @@ import slugify from "slugify";
 const createProduct = async (payload: Product, searchTerm: string) => {
   //creating slug
 
-  const slug = slugify(searchTerm || "iphone");
+  const slug = slugify("searchTerm=iphone");
   const result = await ProductModel.create({ ...payload, slug });
   return result;
 };
@@ -22,9 +22,15 @@ const getProductBySlug = async (slug: string) => {
   return result;
 };
 
+const deleteProduct = async (id: string) => {
+  const result = await ProductModel.updateOne({ id }, { isDeleted: true });
+  return result;
+};
+
 export const ProductServices = {
   createProduct,
   getAllProducts,
   getProductById,
   getProductBySlug,
+  deleteProduct,
 };
